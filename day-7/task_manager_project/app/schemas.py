@@ -19,6 +19,8 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True
 
+UserOut = UserResponse
+
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -35,6 +37,9 @@ class ProjectResponse(ProjectCreate):
 
     class Config:
         from_attributes = True
+
+# Alias for ProjectResponse
+ProjectOut = ProjectResponse
 
 # Task Schemas
 class TaskCreate(BaseModel):
@@ -53,11 +58,14 @@ class TaskUpdate(BaseModel):
 class TaskResponse(BaseModel):
     id: int
     title: str
-    description: Optional[str]
+    description: Optional[str] = None
     status: TaskStatus
-    due_date: Optional[datetime]
+    due_date: Optional[datetime] = None
     project_id: int
-    assignee_id: Optional[int]
+    assignee_id: Optional[int] = None
 
     class Config:
         from_attributes = True
+
+# Alias for TaskResponse
+TaskOut = TaskResponse

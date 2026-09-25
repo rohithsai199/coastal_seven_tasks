@@ -1,5 +1,5 @@
 import enum
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, Integer, String, Enum, DateTime, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -17,7 +17,7 @@ class TaskStatus(str, enum.Enum):
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_index=True, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     username = Column(String(50), unique=True, index=True, nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False)
     hashed_password = Column(String(255), nullable=False)
@@ -33,7 +33,7 @@ class Project(Base):
     name = Column(String(100), nullable=False)
     description = Column(Text, nullable=True)
     owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     owner = relationship("User", back_populates="projects")
     tasks = relationship("Task", back_populates="project", cascade="all, delete-orphan")
