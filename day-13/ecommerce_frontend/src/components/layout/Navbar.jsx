@@ -1,18 +1,20 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   ShoppingBag,
-  User,
   LogOut,
-  Package,
   Sparkles,
   Search,
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuthStore } from "../../stores/authStore";
 
 function Navbar() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isAuthenticated = Boolean(user);
 
   const handleLogout = () => {
     logout();
@@ -25,8 +27,14 @@ function Navbar() {
     <header className="navbar-modern">
       <div className="navbar-announcement-bar">
         <div className="container announcement-content">
-          <span>✨ <strong>SUMMER DROP 2026</strong>: Get 20% OFF on all Wireless Tech with code <strong>AURORA20</strong></span>
-          <span className="announcement-right">⚡ Free Global Express Shipping on $50+</span>
+          <span>
+            ✨ <strong>SUMMER DROP 2026</strong>: Get 20% OFF on all
+            Wireless Tech with code <strong>AURORA20</strong>
+          </span>
+
+          <span className="announcement-right">
+            ⚡ Free Global Express Shipping on $50+
+          </span>
         </div>
       </div>
 
@@ -36,24 +44,36 @@ function Navbar() {
           <span className="brand-badge-icon">
             <Sparkles size={18} />
           </span>
+
           <span className="brand-text">ShopStore</span>
         </Link>
 
         {/* Center Nav Links */}
         <nav className="navbar-nav-links">
-          <Link to="/" className={`nav-link ${isActive("/") ? "active" : ""}`}>
+          <Link
+            to="/"
+            className={`nav-link ${
+              isActive("/") ? "active" : ""
+            }`}
+          >
             Home
           </Link>
+
           <Link
             to="/products"
-            className={`nav-link ${isActive("/products") ? "active" : ""}`}
+            className={`nav-link ${
+              isActive("/products") ? "active" : ""
+            }`}
           >
             Explore Catalog
           </Link>
+
           {isAuthenticated && (
             <Link
               to="/orders"
-              className={`nav-link ${isActive("/orders") ? "active" : ""}`}
+              className={`nav-link ${
+                isActive("/orders") ? "active" : ""
+              }`}
             >
               My Orders
             </Link>
@@ -62,12 +82,17 @@ function Navbar() {
 
         {/* Right Actions */}
         <div className="navbar-actions">
-          <Link to="/products" className="nav-action-btn" title="Search catalog">
+          <Link
+            to="/products"
+            className="nav-action-btn"
+            title="Search catalog"
+          >
             <Search size={19} />
           </Link>
 
           {isAuthenticated ? (
             <>
+              {/* Cart */}
               <Link
                 to="/cart"
                 className="nav-action-btn cart-btn-badge"
@@ -77,14 +102,21 @@ function Navbar() {
                 <span className="cart-label">Cart</span>
               </Link>
 
+              {/* User */}
               <div className="user-dropdown-wrapper">
                 <div className="user-avatar-pill">
                   <div className="avatar-circle">
-                    {user?.email ? user.email.charAt(0).toUpperCase() : "U"}
+                    {user?.email
+                      ? user.email.charAt(0).toUpperCase()
+                      : "U"}
                   </div>
-                  <span className="user-email-text">{user?.email?.split("@")[0]}</span>
+
+                  <span className="user-email-text">
+                    {user?.email?.split("@")[0]}
+                  </span>
                 </div>
 
+                {/* Logout */}
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -97,11 +129,19 @@ function Navbar() {
               </div>
             </>
           ) : (
+            /* Logged Out */
             <div className="auth-buttons-group">
-              <Link to="/login" className="btn-nav-login">
+              <Link
+                to="/login"
+                className="btn-nav-login"
+              >
                 Sign In
               </Link>
-              <Link to="/register" className="btn-nav-register">
+
+              <Link
+                to="/register"
+                className="btn-nav-register"
+              >
                 Get Started
               </Link>
             </div>

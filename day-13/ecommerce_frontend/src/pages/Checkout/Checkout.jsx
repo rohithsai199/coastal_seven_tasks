@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { checkout } from "../../services/orderService";
-import { ArrowLeft, ShieldCheck, Truck, Lock, Sparkles } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Truck, Lock } from "lucide-react";
 
 function Checkout() {
   const navigate = useNavigate();

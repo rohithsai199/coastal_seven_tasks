@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuthStore } from "../../stores/authStore";
 import { Sparkles } from "lucide-react";
 
 function Register() {
   const navigate = useNavigate();
-  const { register } = useAuth();
+  const register = useAuthStore((state) => state.register);
 
   const [formData, setFormData] = useState({
     email: "",

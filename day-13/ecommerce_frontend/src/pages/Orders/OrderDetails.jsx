@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -8,7 +7,6 @@ import {
   Truck,
   AlertCircle,
   MapPin,
-  ShieldCheck,
   XCircle,
 } from "lucide-react";
 
@@ -17,56 +15,68 @@ import {
   cancelOrder,
 } from "../../services/orderService";
 
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+
 function OrderDetails() {
   const { orderId } = useParams();
   const navigate = useNavigate();
 
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [cancelling, setCancelling] = useState(false);
+  const queryClient = useQueryClient();
 
-  const loadOrder = async () => {
-    try {
-      setLoading(true);
-      setError("");
+  const {
+    data: order,
+    isLoading,
+    isError,
+    error: queryError,
+  } = useQuery({
+    queryKey: ["order", orderId],
+    queryFn: () => getOrder(orderId),
+    enabled: Boolean(orderId),
+  });
 
-      const data = await getOrder(orderId);
-      setOrder(data);
-    } catch (err) {
-      console.error("Order details error:", err);
-      setError(
-        err.response?.data?.detail || "Unable to load order details."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  const cancelMutation = useMutation({
+    mutationFn: () => cancelOrder(orderId),
 
-  useEffect(() => {
-    loadOrder();
-  }, [orderId]);
+    onMutate: async () => {
+      await queryClient.cancelQueries({
+        queryKey: ["order", orderId],
+      });
+    },
 
-  const handleCancel = async () => {
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["order", orderId],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["orders"],
+      });
+    },
+
+    onError: (err) => {
+      console.error("Cancel order error:", err);
+    },
+  });
+
+  const handleCancel = () => {
     const confirmed = window.confirm(
       "Are you sure you want to cancel order #" + orderId + "?"
     );
+
     if (!confirmed) return;
 
-    try {
-      setCancelling(true);
-      setError("");
-      await cancelOrder(orderId);
-      await loadOrder();
-    } catch (err) {
-      console.error("Cancel order error:", err);
-      setError(
-        err.response?.data?.detail || "Unable to cancel this order."
-      );
-    } finally {
-      setCancelling(false);
-    }
+    cancelMutation.mutate();
   };
+
+  const error =
+    queryError?.response?.data?.detail ||
+    (isError ? "Unable to load order details." : "") ||
+    cancelMutation.error?.response?.data?.detail ||
+    "";
 
   const getStatusBadge = (status) => {
     const s = (status || "PENDING").toUpperCase();
@@ -104,7 +114,7 @@ function OrderDetails() {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="order-details-page">
         <div className="container loading-wrapper">
@@ -314,7 +324,7 @@ function OrderDetails() {
               {!isCancelled && !isDelivered && (
                 <button
                   type="button"
-                  disabled={cancelling}
+                  disabled={cancelMutation.isPending}
                   onClick={handleCancel}
                   style={{
                     width: '100%',
@@ -333,7 +343,11 @@ function OrderDetails() {
                   }}
                 >
                   <XCircle size={16} />
-                  <span>{cancelling ? "Cancelling Order..." : "Cancel Order"}</span>
+                <span>
+                    {cancelMutation.isPending
+                        ? "Cancelling Order..."
+                        : "Cancel Order"}
+                </span>
                 </button>
               )}
             </div>

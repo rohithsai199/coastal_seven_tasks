@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import {
   ArrowRight,
   ShoppingBag,
@@ -14,7 +14,6 @@ import {
   Zap,
   Sparkles,
   CheckCircle2,
-  Clock,
   Flame,
   Award,
   ChevronRight,
@@ -22,10 +21,9 @@ import {
 import { getProducts } from "../../services/productService";
 import { addToCart } from "../../services/cartService";
 import ProductCard from "../../components/product/ProductCard";
-import { getProductImageUrl, handleImageError } from "../../utils/imageUrl";
+import { handleImageError } from "../../utils/imageUrl";
 
 function Home() {
-  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState("");
