@@ -7,22 +7,11 @@
     <meta name="description" content="ShopStore — Discover curated premium wireless tech, smart wearables, and urban carry designed for modern life." />
     <meta name="theme-color" content="#6C5CE7" />
 
-    <!-- DNS Prefetch & Preconnect -->
+    <!-- Preload Hero LCP Image to maximize LCP score -->
+    <link rel="preload" as="image" href="/images/headphones.jpg" type="image/jpeg" fetchpriority="high" />
+
+    <!-- Preconnect to backend API -->
     <link rel="preconnect" href="http://127.0.0.1:8000" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
-      />
-    </noscript>
 
     <title>ShopStore — Next-Gen Everyday Essentials</title>
   </head>
