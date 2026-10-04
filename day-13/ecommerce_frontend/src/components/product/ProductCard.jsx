@@ -1,15 +1,16 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Star, Zap, Eye } from "lucide-react";
 import { getProductImageUrl, handleImageError } from "../../utils/imageUrl";
 
-function ProductCard({ product, onAddToCart }) {
+const ProductCard = memo(function ProductCard({ product, onAddToCart }) {
   const isOutOfStock = product.stock <= 0;
   const isLowStock = product.stock > 0 && product.stock <= 5;
   const imageUrl = getProductImageUrl(product.image_url);
 
   // Generate deterministic mock rating / badge based on product id
   const rating = 4.8;
-  const reviewCount = 24 + (product.id * 17) % 80;
+  const reviewCount = 24 + ((product.id || 1) * 17) % 80;
   const badgeType = product.id % 3 === 0 ? "Bestseller" : (product.id % 2 === 0 ? "20% OFF" : "New Arrival");
 
   return (
@@ -22,6 +23,9 @@ function ProductCard({ product, onAddToCart }) {
             onError={(e) => handleImageError(e)}
             className="product-img"
             loading="lazy"
+            decoding="async"
+            width="320"
+            height="320"
           />
         </Link>
 
@@ -100,6 +104,6 @@ function ProductCard({ product, onAddToCart }) {
       </div>
     </article>
   );
-}
+});
 
 export default ProductCard;

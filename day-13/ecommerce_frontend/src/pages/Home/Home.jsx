@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link} from "react-router-dom";
+import { useState, useEffect, useCallback, memo } from "react";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
   ShoppingBag,
@@ -23,13 +23,8 @@ import { addToCart } from "../../services/cartService";
 import ProductCard from "../../components/product/ProductCard";
 import { handleImageError } from "../../utils/imageUrl";
 
-function Home() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [toastMessage, setToastMessage] = useState("");
-  const [activeHeroTab, setActiveHeroTab] = useState(0);
-
-  // Countdown timer for flash sale
+// Isolated Memoized Countdown Component to prevent full page re-renders
+const CountdownTimer = memo(function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState({
     hours: 8,
     minutes: 42,
@@ -52,23 +47,149 @@ function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch featured products
+  return (
+    <div className="countdown-timer-box">
+      <div className="timer-unit">
+        <span className="timer-number">
+          {String(timeLeft.hours).padStart(2, "0")}
+        </span>
+        <span className="timer-label">Hours</span>
+      </div>
+      <span className="timer-colon">:</span>
+      <div className="timer-unit">
+        <span className="timer-number">
+          {String(timeLeft.minutes).padStart(2, "0")}
+        </span>
+        <span className="timer-label">Mins</span>
+      </div>
+      <span className="timer-colon">:</span>
+      <div className="timer-unit">
+        <span className="timer-number">
+          {String(timeLeft.seconds).padStart(2, "0")}
+        </span>
+        <span className="timer-label">Secs</span>
+      </div>
+    </div>
+  );
+});
+
+const HERO_ITEMS = [
+  {
+    title: "Apex Pro Wireless ANC",
+    tagline: "Ultra-crisp 40mm Beryllium acoustic drivers",
+    price: "$249.99",
+    image: "/images/headphones.jpg",
+    badge: "Flagship Choice",
+    highlights: ["Hybrid ANC 3.0", "45h Battery", "Spatial Audio"],
+    productId: 1,
+  },
+  {
+    title: "Chronos Horizon Titanium",
+    tagline: "Aerospace titanium bezel with AMOLED display",
+    price: "$329.99",
+    image: "/images/smartwatch.jpg",
+    badge: "Top Rated 2026",
+    highlights: ["Dual-Band GPS", "Biometric Suite", "14-Day Battery"],
+    productId: 2,
+  },
+  {
+    title: "Strata Velocity Performance",
+    tagline: "Responsive energy-return propulsion foam",
+    price: "$149.99",
+    image: "/images/sneakers.jpg",
+    badge: "Trending Fast",
+    highlights: ["Ultra-Light Knit", "Zero-Drag Arch", "All-Terrain"],
+    productId: 3,
+  },
+];
+
+const CATEGORIES = [
+  {
+    name: "Audio & Acoustics",
+    count: "Studio sound quality",
+    icon: <Headphones size={28} />,
+    image: "/images/headphones.jpg",
+    badge: "20% OFF",
+  },
+  {
+    name: "Smart Wearables",
+    count: "Titanium health tech",
+    icon: <Watch size={28} />,
+    image: "/images/smartwatch.jpg",
+    badge: "Hot Pick",
+  },
+  {
+    name: "Performance Footwear",
+    count: "Engineered comfort",
+    icon: <Footprints size={28} />,
+    image: "/images/sneakers.jpg",
+    badge: "New Arrival",
+  },
+  {
+    name: "Urban Carry & Bags",
+    count: "Weather-resistant nylon",
+    icon: <Backpack size={28} />,
+    image: "/images/backpack.jpg",
+    badge: "Limited Drop",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    name: "Alex Rivera",
+    role: "Creative Director & Tech Reviewer",
+    avatar: "AR",
+    rating: 5,
+    comment:
+      "The Apex Pro headphones blew my expectations away. Build quality is flawless, ANC blocks out studio clatter, and the battery feels virtually endless. Instant daily driver.",
+  },
+  {
+    name: "Sarah Chen",
+    role: "Marathon Runner & Athlete",
+    avatar: "SC",
+    rating: 5,
+    comment:
+      "The Strata Velocity sneakers offer unmatched bounce and foot stability. Plus, the checkout was fast and delivery arrived 2 days earlier than estimated!",
+  },
+  {
+    name: "Marcus Vance",
+    role: "Product Designer",
+    avatar: "MV",
+    rating: 5,
+    comment:
+      "Clean aesthetic, top tier customer service, and unmatched attention to detail in packaging. ShopStore is now my go-to for all gear updates.",
+  },
+];
+
+function Home() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [toastMessage, setToastMessage] = useState("");
+  const [activeHeroTab, setActiveHeroTab] = useState(0);
+
+  // Fetch initial featured products
   useEffect(() => {
+    let mounted = true;
     async function loadFeatured() {
       try {
         setLoading(true);
         const data = await getProducts({ page_size: 6, sort: "newest" });
-        setProducts(data || []);
+        if (mounted) {
+          setProducts(data || []);
+        }
       } catch (err) {
         console.error("Failed to load featured products:", err);
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     }
     loadFeatured();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
-  const handleAddToCart = async (product) => {
+  const handleAddToCart = useCallback(async (product) => {
     try {
       await addToCart(product.id, 1);
       setToastMessage(`Added "${product.name}" to your cart!`);
@@ -79,104 +200,9 @@ function Home() {
       );
       setTimeout(() => setToastMessage(""), 4000);
     }
-  };
+  }, []);
 
-  const heroItems = [
-    {
-      title: "Apex Pro Wireless ANC",
-      tagline: "Ultra-crisp 40mm Beryllium acoustic drivers",
-      price: "$249.99",
-      rating: "4.9 (1,420 reviews)",
-      image: "/images/headphones.jpg",
-      badge: "Flagship Choice",
-      highlights: ["Hybrid ANC 3.0", "45h Battery", "Spatial Audio"],
-      productId: 1,
-    },
-    {
-      title: "Chronos Horizon Titanium",
-      tagline: "Aerospace titanium bezel with AMOLED display",
-      price: "$329.99",
-      rating: "4.9 (980 reviews)",
-      image: "/images/smartwatch.jpg",
-      badge: "Top Rated 2026",
-      highlights: ["Dual-Band GPS", "Biometric Suite", "14-Day Battery"],
-      productId: 2,
-    },
-    {
-      title: "Strata Velocity Performance",
-      tagline: "Responsive energy-return propulsion foam",
-      price: "$149.99",
-      rating: "4.8 (2,150 reviews)",
-      image: "/images/sneakers.jpg",
-      badge: "Trending Fast",
-      highlights: ["Ultra-Light Knit", "Zero-Drag Arch", "All-Terrain"],
-      productId: 3,
-    },
-  ];
-
-  const currentHero = heroItems[activeHeroTab];
-
-  const categories = [
-    {
-      name: "Audio & Acoustics",
-      count: "Studio sound quality",
-      icon: <Headphones size={28} />,
-      color: "from-purple-500 to-indigo-600",
-      image: "/images/headphones.jpg",
-      badge: "20% OFF",
-    },
-    {
-      name: "Smart Wearables",
-      count: "Titanium health tech",
-      icon: <Watch size={28} />,
-      color: "from-blue-500 to-cyan-600",
-      image: "/images/smartwatch.jpg",
-      badge: "Hot Pick",
-    },
-    {
-      name: "Performance Footwear",
-      count: "Engineered comfort",
-      icon: <Footprints size={28} />,
-      color: "from-amber-500 to-rose-600",
-      image: "/images/sneakers.jpg",
-      badge: "New Arrival",
-    },
-    {
-      name: "Urban Carry & Bags",
-      count: "Weather-resistant nylon",
-      icon: <Backpack size={28} />,
-      color: "from-emerald-500 to-teal-600",
-      image: "/images/backpack.jpg",
-      badge: "Limited Drop",
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "Alex Rivera",
-      role: "Creative Director & Tech Reviewer",
-      avatar: "AR",
-      rating: 5,
-      comment:
-        "The Apex Pro headphones blew my expectations away. Build quality is flawless, ANC blocks out studio clatter, and the battery feels virtually endless. Instant daily driver.",
-    },
-    {
-      name: "Sarah Chen",
-      role: "Marathon Runner & Athlete",
-      avatar: "SC",
-      rating: 5,
-      comment:
-        "The Strata Velocity sneakers offer unmatched bounce and foot stability. Plus, the checkout was fast and delivery arrived 2 days earlier than estimated!",
-    },
-    {
-      name: "Marcus Vance",
-      role: "Product Designer",
-      avatar: "MV",
-      rating: 5,
-      comment:
-        "Clean aesthetic, top tier customer service, and unmatched attention to detail in packaging. ShopStore is now my go-to for all gear updates.",
-    },
-  ];
+  const currentHero = HERO_ITEMS[activeHeroTab];
 
   return (
     <div className="home-modern-page">
@@ -271,6 +297,11 @@ function Home() {
                   alt={currentHero.title}
                   onError={(e) => handleImageError(e)}
                   className="showcase-img"
+                  fetchPriority="high"
+                  loading="eager"
+                  decoding="async"
+                  width="400"
+                  height="320"
                 />
               </div>
 
@@ -307,7 +338,7 @@ function Home() {
 
               {/* Hero Switcher Tabs */}
               <div className="hero-switcher-tabs">
-                {heroItems.map((item, idx) => (
+                {HERO_ITEMS.map((item, idx) => (
                   <button
                     key={idx}
                     type="button"
@@ -329,7 +360,7 @@ function Home() {
       {/* ========================================================
           2. VALUE PROPOSITION / PERKS BAR (4-COLUMN)
       ======================================================== */}
-      <section className="perks-bar-section">
+      <section className="perks-bar-section content-visibility-auto">
         <div className="container">
           <div className="perks-grid-4">
             <div className="perk-card">
@@ -378,7 +409,7 @@ function Home() {
       {/* ========================================================
           3. CURATED CATEGORIES / FEATURED COLLECTIONS
       ======================================================== */}
-      <section className="categories-modern-section">
+      <section className="categories-modern-section content-visibility-auto">
         <div className="container">
           <div className="section-header-row">
             <div>
@@ -392,7 +423,7 @@ function Home() {
           </div>
 
           <div className="categories-grid-4">
-            {categories.map((cat, index) => (
+            {CATEGORIES.map((cat, index) => (
               <Link
                 to="/products"
                 key={index}
@@ -404,6 +435,10 @@ function Home() {
                     alt={cat.name}
                     onError={(e) => handleImageError(e)}
                     className="category-img"
+                    loading="lazy"
+                    decoding="async"
+                    width="280"
+                    height="180"
                   />
                   <div className="category-badge-pill">{cat.badge}</div>
                 </div>
@@ -424,7 +459,7 @@ function Home() {
       {/* ========================================================
           4. TRENDING PRODUCTS / BEST SELLERS GRID
       ======================================================== */}
-      <section className="trending-products-section">
+      <section className="trending-products-section content-visibility-auto">
         <div className="container">
           <div className="section-header-row">
             <div>
@@ -462,7 +497,7 @@ function Home() {
       {/* ========================================================
           5. SPECIAL PROMO / FLASH SALE BANNER WITH LIVE TIMER
       ======================================================== */}
-      <section id="flash-sale" className="flash-sale-banner-section">
+      <section id="flash-sale" className="flash-sale-banner-section content-visibility-auto">
         <div className="container">
           <div className="flash-sale-card">
             <div className="flash-sale-content">
@@ -480,29 +515,8 @@ function Home() {
                 Upgrade your desk setup, fitness routine, and daily carry. Premium audio, smart wearables, and waterproof backpacks at our lowest prices of the season.
               </p>
 
-              {/* Live Countdown Timer */}
-              <div className="countdown-timer-box">
-                <div className="timer-unit">
-                  <span className="timer-number">
-                    {String(timeLeft.hours).padStart(2, "0")}
-                  </span>
-                  <span className="timer-label">Hours</span>
-                </div>
-                <span className="timer-colon">:</span>
-                <div className="timer-unit">
-                  <span className="timer-number">
-                    {String(timeLeft.minutes).padStart(2, "0")}
-                  </span>
-                  <span className="timer-label">Mins</span>
-                </div>
-                <span className="timer-colon">:</span>
-                <div className="timer-unit">
-                  <span className="timer-number">
-                    {String(timeLeft.seconds).padStart(2, "0")}
-                  </span>
-                  <span className="timer-label">Secs</span>
-                </div>
-              </div>
+              {/* Memoized Live Countdown Timer */}
+              <CountdownTimer />
 
               <div className="flash-cta-row">
                 <Link to="/products" className="btn-flash-primary">
@@ -518,6 +532,10 @@ function Home() {
                 alt="Flash Sale Featured Product"
                 onError={(e) => handleImageError(e)}
                 className="flash-featured-img"
+                loading="lazy"
+                decoding="async"
+                width="340"
+                height="320"
               />
               <div className="flash-discount-tag">
                 <span className="tag-pct">40%</span>
@@ -531,7 +549,7 @@ function Home() {
       {/* ========================================================
           6. TESTIMONIALS / SOCIAL PROOF SECTION
       ======================================================== */}
-      <section className="testimonials-modern-section">
+      <section className="testimonials-modern-section content-visibility-auto">
         <div className="container">
           <div className="testimonials-header text-center">
             <span className="section-badge-purple">Real Reviews</span>
@@ -542,7 +560,7 @@ function Home() {
           </div>
 
           <div className="testimonials-grid-3">
-            {testimonials.map((testi, i) => (
+            {TESTIMONIALS.map((testi, i) => (
               <div key={i} className="testimonial-card">
                 <div className="testimonial-stars">
                   {[...Array(testi.rating)].map((_, s) => (
@@ -570,7 +588,7 @@ function Home() {
       {/* ========================================================
           7. NEWSLETTER / VIP ACCESS (GLASSMORPHIC CARD)
       ======================================================== */}
-      <section className="newsletter-modern-section">
+      <section className="newsletter-modern-section content-visibility-auto">
         <div className="container">
           <div className="newsletter-card-glass">
             <div className="newsletter-inner">
