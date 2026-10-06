@@ -1,0 +1,3 @@
+2026-09-24 14:45:15,892 [INFO] TaskManagerApp: Schema, Keys, and Indexes initialized successfully.
+2026-09-24 14:45:34,873 [INFO] TaskManagerApp: Attempting to register user: rohith (guntururohithsai@gmail.com)
+2026-09-24 14:45:34,927 [INFO] TaskManagerApp: User registered successfully. User ID: 1
