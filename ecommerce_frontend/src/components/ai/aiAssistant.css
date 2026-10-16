@@ -1,0 +1,818 @@
+/* ==========================================================
+   AURA AI SHOPPING ASSISTANT - LUXURY MONOCHROME (BLACK & WHITE)
+   Ultra-clean, high-end luxury fashion aesthetic for ARISE
+   ========================================================== */
+
+/* Floating Launcher Button */
+.aura-launcher-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.aura-launcher-btn:hover {
+  background: #18181B;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.aura-launcher-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+}
+
+.aura-launcher-badge {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Slide-over Drawer / Floating Backdrop */
+.aura-drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+  animation: aura-fade-in 0.2s ease-out;
+}
+
+@keyframes aura-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.aura-drawer-panel {
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  background: #FFFFFF;
+  border-left: 1px solid #E4E4E7;
+  box-shadow: -12px 0 50px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: aura-slide-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 640px) {
+  .aura-drawer-panel {
+    max-width: 100%;
+  }
+}
+
+@keyframes aura-slide-left {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Header - Deep Obsidian Black */
+.aura-header {
+  padding: 18px 22px;
+  background: #000000;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #27272A;
+}
+
+.aura-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.aura-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #18181B;
+  border: 1px solid #3F3F46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.aura-title-wrap h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aura-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  display: inline-block;
+  animation: aura-dot-pulse 2s infinite;
+}
+
+@keyframes aura-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.aura-subtitle {
+  font-size: 11px;
+  color: #A1A1AA;
+  margin-top: 3px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.aura-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aura-icon-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #D4D4D8;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.aura-icon-btn:hover {
+  background: #FFFFFF;
+  color: #000000;
+  border-color: #FFFFFF;
+}
+
+/* Provider Switcher Bar - Monochrome Precision */
+.aura-provider-bar {
+  padding: 10px 18px;
+  background: #FAFAFA;
+  border-bottom: 1px solid #E4E4E7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.aura-provider-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #18181B;
+}
+
+.aura-provider-select {
+  padding: 5px 10px;
+  border: 1px solid #D4D4D8;
+  border-radius: 6px;
+  font-size: 12px;
+  background: #FFFFFF;
+  color: #000000;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.aura-provider-select:focus {
+  border-color: #000000;
+}
+
+.aura-provider-badge {
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  background: #000000;
+  color: #FFFFFF;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+/* Settings Overlay */
+.aura-settings-panel {
+  padding: 16px 20px;
+  background: #F4F4F6;
+  border-bottom: 1px solid #E4E4E7;
+  animation: aura-fade-in 0.2s ease-out;
+}
+
+.aura-settings-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #000000;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aura-setting-item {
+  margin-bottom: 12px;
+}
+
+.aura-setting-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #52525B;
+  margin-bottom: 5px;
+}
+
+.aura-input-field {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #D4D4D8;
+  border-radius: 8px;
+  font-size: 12px;
+  outline: none;
+  background: #FFFFFF;
+  color: #000000;
+  transition: border-color 0.2s;
+}
+
+.aura-input-field:focus {
+  border-color: #000000;
+}
+
+.aura-reindex-btn {
+  padding: 8px 16px;
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.aura-reindex-btn:hover {
+  background: #27272A;
+  border-color: #27272A;
+}
+
+/* Suggestions Row - Crisp Monochrome Pills */
+.aura-suggestions-wrap {
+  padding: 12px 18px;
+  background: #FAFAFA;
+  border-bottom: 1px solid #E4E4E7;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aura-suggestions-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #71717A;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.aura-suggestions-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.aura-chip {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  border: 1px solid #D4D4D8;
+  font-size: 12px;
+  font-weight: 500;
+  color: #18181B;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.aura-chip:hover {
+  border-color: #000000;
+  color: #FFFFFF;
+  background: #000000;
+  transform: translateY(-1px);
+}
+
+/* Chat Messages Stream Area */
+.aura-messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #FFFFFF;
+}
+
+.aura-msg {
+  display: flex;
+  gap: 10px;
+  max-width: 90%;
+  animation: aura-msg-pop 0.25s ease-out;
+}
+
+@keyframes aura-msg-pop {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.aura-msg.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.aura-msg.assistant {
+  align-self: flex-start;
+  max-width: 95%;
+}
+
+.aura-msg-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.aura-msg.user .aura-msg-avatar {
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid #27272A;
+}
+
+.aura-msg.assistant .aura-msg-avatar {
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid #27272A;
+}
+
+.aura-msg-bubble {
+  padding: 13px 18px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  position: relative;
+}
+
+/* User Bubble: Luxury Solid Black */
+.aura-msg.user .aura-msg-bubble {
+  background: #000000;
+  color: #FFFFFF;
+  border-bottom-right-radius: 4px;
+  border: 1px solid #18181B;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* Assistant Bubble: Clean Monochrome Crisp Surface */
+.aura-msg.assistant .aura-msg-bubble {
+  background: #F4F4F6;
+  color: #09090B;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #E4E4E7;
+}
+
+/* Markdown styling inside assistant message */
+.aura-markdown h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 12px 0 5px;
+  color: #000000;
+  letter-spacing: 0.2px;
+}
+
+.aura-markdown p {
+  margin: 0 0 8px;
+}
+
+.aura-markdown p:last-child {
+  margin-bottom: 0;
+}
+
+.aura-markdown ul {
+  margin: 6px 0;
+  padding-left: 18px;
+}
+
+.aura-markdown li {
+  margin-bottom: 4px;
+}
+
+.aura-cursor-blink {
+  display: inline-block;
+  width: 6px;
+  height: 14px;
+  background: #000000;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: aura-blink 0.8s infinite;
+}
+
+@keyframes aura-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.aura-meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #FFFFFF;
+  border: 1px solid #D4D4D8;
+  color: #18181B;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.aura-meta-badge.fallback {
+  background: #F4F4F5;
+  border: 1px solid #27272A;
+  color: #000000;
+}
+
+/* Source Citations Shelf */
+.aura-citations-section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #E4E4E7;
+}
+
+.aura-citations-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aura-citations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+/* Citation Card - Clean Luxury Monochrome */
+.aura-citation-card {
+  background: #FFFFFF;
+  border: 1px solid #E4E4E7;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.aura-citation-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: #000000;
+}
+
+.aura-citation-img-wrap {
+  height: 100px;
+  background: #F4F4F5;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aura-citation-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aura-citation-img-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F4F4F5;
+  color: #71717A;
+}
+
+.aura-match-pill {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #000000;
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+}
+
+.aura-citation-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.aura-citation-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 6px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.aura-citation-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.aura-citation-price {
+  font-weight: 800;
+  color: #000000;
+  font-size: 13.5px;
+}
+
+.aura-stock-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.aura-stock-badge.in-stock {
+  background: #F4F4F5;
+  color: #000000;
+  border: 1px solid #E4E4E7;
+}
+
+.aura-stock-badge.out-of-stock {
+  background: #000000;
+  color: #FFFFFF;
+}
+
+.aura-citation-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.aura-btn-details {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: #F4F4F5;
+  color: #18181B;
+  border-radius: 6px;
+  border: 1px solid #E4E4E7;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.aura-btn-details:hover {
+  background: #E4E4E7;
+  color: #000000;
+  border-color: #D4D4D8;
+}
+
+.aura-btn-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.aura-btn-add:hover {
+  background: #27272A;
+  border-color: #27272A;
+}
+
+.aura-btn-add.added {
+  background: #18181B;
+  color: #FFFFFF;
+}
+
+/* Chat Input Footer - Crisp White with Solid Black Send CTA */
+.aura-footer {
+  padding: 14px 18px;
+  background: #FFFFFF;
+  border-top: 1px solid #E4E4E7;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.aura-stop-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aura-stop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.aura-stop-btn:hover {
+  background: #27272A;
+}
+
+.aura-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.aura-chat-input {
+  flex: 1;
+  padding: 12px 18px;
+  border: 1px solid #D4D4D8;
+  border-radius: 9999px;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #FAFAFA;
+  color: #000000;
+}
+
+.aura-chat-input:focus {
+  border-color: #000000;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+.aura-chat-input::placeholder {
+  color: #A1A1AA;
+}
+
+.aura-send-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.aura-send-btn:hover:not(:disabled) {
+  background: #27272A;
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.aura-send-btn:disabled {
+  background: #F4F4F5;
+  color: #A1A1AA;
+  border-color: #E4E4E7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* AI Agent Tool Calling Pills */
+.aura-tools-executed {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #F4F4F5;
+  border-radius: 8px;
+  border-left: 3px solid #000000;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.aura-tools-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #18181B;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.aura-tool-pill {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  color: #000000;
+  background: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #D4D4D8;
+  display: inline-block;
+}
+
+/* AI Moderation Alert Badge */
+.aura-moderation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #000000;
+  border: 1px solid #000000;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}

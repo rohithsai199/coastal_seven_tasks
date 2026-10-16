@@ -1,0 +1,101 @@
+name: Dual-Hosting Production Deployment Pipeline (Render + Vercel)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      backend_url:
+        description: 'Override live Render Backend URL (e.g. https://coastal-seven-backend.onrender.com)'
+        required: false
+        default: ''
+
+jobs:
+  # ==============================================================
+  # STEP 1: Deploy Backend to Render Web Service
+  # ==============================================================
+  deploy-backend:
+    name: Deploy Backend to Render
+    runs-on: ubuntu-latest
+    outputs:
+      backend_url: ${{ steps.set-backend-url.outputs.url }}
+    steps:
+      - name: Trigger Render Deploy Hook
+        if: env.RENDER_DEPLOY_HOOK_URL != ''
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          echo "Triggering Render Web Service deployment..."
+          curl -s -X POST "$RENDER_DEPLOY_HOOK_URL"
+          echo "Render deploy trigger sent successfully."
+
+      - name: Resolve Live Backend URL
+        id: set-backend-url
+        env:
+          CUSTOM_BACKEND_URL: ${{ github.event.inputs.backend_url }}
+          SECRET_BACKEND_URL: ${{ secrets.RENDER_BACKEND_URL }}
+        run: |
+          URL="${CUSTOM_BACKEND_URL:-$SECRET_BACKEND_URL}"
+          if [ -z "$URL" ]; then
+            URL="https://coastal-seven-backend.onrender.com"
+          fi
+          echo "Live Backend URL resolved to: $URL"
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Await Render Backend Health Status
+        run: |
+          BACKEND_URL="${{ steps.set-backend-url.outputs.url }}"
+          echo "Polling health endpoint: $BACKEND_URL/health"
+          for i in {1..30}; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BACKEND_URL/health" || echo "000")
+            if [ "$STATUS" -eq 200 ]; then
+              echo "Backend is live and responding with HTTP 200!"
+              exit 0
+            fi
+            echo "Waiting for backend ($STATUS)... attempt $i/30 (sleeping 10s)"
+            sleep 10
+          done
+          echo "Warning: Healthcheck timed out or backend is currently initializing. Continuing pipeline..."
+
+  # ==============================================================
+  # STEP 2: Deploy Frontend to Vercel Static Hosting
+  # ==============================================================
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    needs: deploy-backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: "./ecommerce_frontend/package-lock.json"
+
+      - name: Install Frontend Dependencies
+        working-directory: ./ecommerce_frontend
+        run: npm ci
+
+      - name: Build Vite Production Bundle
+        working-directory: ./ecommerce_frontend
+        env:
+          VITE_API_URL: ${{ needs.deploy-backend.outputs.backend_url }}
+          VITE_WS_URL: ${{ format('wss://{0}', replace(replace(needs.deploy-backend.outputs.backend_url, 'https://', ''), 'http://', '')) }}
+        run: npm run build
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        if: env.VERCEL_TOKEN != ''
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"
+          working-directory: ./ecommerce_frontend
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

@@ -1,0 +1,561 @@
+/* ==========================================================
+   HOME PRODUCT FILTER STYLES (ALLBIRDS REFERENCE)
+   Clean, luxury, responsive filter with Collapsed Capsule
+   and Expanded Multi-Column Drawer.
+   ========================================================== */
+
+.home-filter-reference-container {
+  width: 100%;
+  max-width: 1380px;
+  margin: 10px auto 30px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 20;
+}
+
+/* ==========================================================
+   1. COLLAPSED CAPSULE BAR (Photo 2 Reference)
+   ========================================================== */
+.filter-collapsed-capsule-bar {
+  background: #e9e6e1;
+  border-radius: 9999px;
+  padding: 7px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.filter-capsule-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-trigger-filter-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1e272e;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.btn-trigger-filter-expand:hover {
+  background: #fdfdfd;
+  border-color: #111111;
+  transform: translateY(-1px);
+}
+
+.filter-active-chips-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-active-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111111;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-active-pill:hover {
+  background: #f3f4f6;
+  border-color: #111111;
+}
+
+.btn-reset-text {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.15s ease;
+}
+
+.btn-reset-text:hover {
+  color: #111111;
+}
+
+/* Right Capsule: Sort Dropdown */
+.filter-capsule-right {
+  display: flex;
+  align-items: center;
+}
+
+.sort-dropdown-container {
+  position: relative;
+}
+
+.btn-sort-toggle-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1e272e;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: all 0.2s ease;
+}
+
+.btn-sort-toggle-capsule:hover {
+  border-color: #111111;
+}
+
+.sort-menu-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  min-width: 190px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sort-option-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.sort-option-item:hover {
+  background: #f3f4f6;
+  color: #111111;
+}
+
+.sort-option-item.active {
+  font-weight: 700;
+  color: #111111;
+  background: #f3f4f6;
+}
+
+/* ==========================================================
+   2. EXPANDED FILTER DRAWER (Photo 1 Reference)
+   ========================================================== */
+.filter-expanded-reference-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px 36px 36px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.09);
+  animation: slideDownFilter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDownFilter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header Row */
+.filter-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f2f6;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter-drawer-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-collapse-filters {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 750;
+  color: #111111;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  padding: 0;
+}
+
+.btn-collapse-filters:hover {
+  opacity: 0.75;
+}
+
+.filter-drawer-active-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-drawer-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-drawer-reset-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.btn-drawer-reset-all:hover {
+  color: #111111;
+}
+
+.btn-apply-filters-dark {
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 9px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-apply-filters-dark:hover {
+  background: #000000;
+  transform: translateY(-1px);
+}
+
+/* 5 Columns Layout */
+.filter-columns-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr 1fr 1.25fr 1.25fr;
+  gap: 36px;
+  margin-top: 24px;
+}
+
+.filter-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-col-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #111111;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.filter-col-hint {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #6b7280;
+  margin: 0 0 14px;
+}
+
+/* Size Grid */
+.filter-size-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.filter-size-btn {
+  padding: 8px 4px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e272e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.filter-size-btn:hover {
+  border-color: #111111;
+}
+
+.filter-size-btn.active {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+/* Color List */
+.filter-color-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-color-row-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px 0;
+  text-align: left;
+}
+
+.color-circle-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.filter-color-row-btn:hover .color-circle-swatch {
+  transform: scale(1.1);
+}
+
+.color-name-text {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.filter-color-row-btn.active .color-name-text {
+  font-weight: 700;
+  color: #111111;
+}
+
+/* Checkbox Lists (Price, Category, Material) */
+.filter-col-header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.filter-col-header-flex .filter-col-title {
+  margin: 0;
+}
+
+.btn-col-reset {
+  background: none;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6b7280;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-col-reset:hover {
+  color: #111111;
+}
+
+.filter-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.filter-checkbox-input {
+  display: none;
+}
+
+.checkbox-custom-box {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #9ca3af;
+  border-radius: 4px;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.filter-checkbox-input:checked + .checkbox-custom-box {
+  background: #111111;
+  border-color: #111111;
+}
+
+.checkbox-text {
+  font-size: 13.5px;
+  color: #374151;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.filter-checkbox-input:checked ~ .checkbox-text {
+  color: #111111;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   3. RESPONSIVE BREAKPOINTS
+   ========================================================== */
+@media (max-width: 1100px) {
+  .filter-columns-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-collapsed-capsule-bar {
+    border-radius: 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filter-capsule-left {
+    justify-content: space-between;
+  }
+
+  .filter-capsule-right {
+    justify-content: flex-end;
+  }
+
+  .filter-columns-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .filter-expanded-reference-card {
+    padding: 20px 24px;
+    border-radius: 18px;
+  }
+}
+
+/* ==========================================================
+   4. EMPTY STATE STYLING
+   ========================================================== */
+.filter-empty-state-card {
+  width: 100%;
+  padding: 56px 24px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin: 20px 0;
+}
+
+.filter-empty-state-card svg {
+  color: #111111;
+  margin-bottom: 14px;
+}
+
+.filter-empty-state-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 8px;
+}
+
+.filter-empty-state-card p {
+  font-size: 0.95rem;
+  color: #6b7280;
+  max-width: 440px;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.btn-filter-reset-empty {
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 24px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-filter-reset-empty:hover {
+  background: #000000;
+  transform: translateY(-1px);
+}
+
