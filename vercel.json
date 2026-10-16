@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "cd ecommerce_frontend && npm install && npm run build",
-  "outputDirectory": "ecommerce_frontend/dist",
+  "buildCommand": "cd \"final project complete/ecommerce_frontend\" && npm install && npm run build",
+  "outputDirectory": "final project complete/ecommerce_frontend/dist",
   "rewrites": [
     {
       "source": "/(.*)",

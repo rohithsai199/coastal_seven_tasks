@@ -1,0 +1,7 @@
+-- Production migration for the hardening release.
+-- Run this migration with your normal migration tool before deploying the new models.
+-- PostgreSQL:
+--   ALTER TABLE products ALTER COLUMN price TYPE NUMERIC(12,2) USING price::numeric(12,2);
+--   ALTER TABLE orders ALTER COLUMN total_amount TYPE NUMERIC(12,2) USING total_amount::numeric(12,2);
+--   ALTER TABLE order_items ALTER COLUMN price TYPE NUMERIC(12,2) USING price::numeric(12,2);
+-- SQLite development databases can be recreated from Base.metadata when appropriate.

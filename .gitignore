@@ -59,3 +59,8 @@ ecommerce_backend_reviewed/static/invoices/*
 .idea/
 .DS_Store
 Thumbs.db
+
+# Root working directory copies (tracked cleanly inside "final project complete/")
+/ecommerce_backend_reviewed/
+/ecommerce_frontend/
+

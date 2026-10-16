@@ -2,7 +2,7 @@ services:
   - type: web
     name: coastal-seven-backend
     runtime: python
-    rootDir: ecommerce_backend_reviewed
+    rootDir: final project complete/ecommerce_backend_reviewed
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
